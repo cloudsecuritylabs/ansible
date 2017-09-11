@@ -1,0 +1,14 @@
+---
+- name: test playbook for regostering and debugging
+  hosts: test
+  remote_user: root
+
+  tasks:
+  - name: get date on server
+    shell: date
+    register: output
+
+  - debug: msg="the date is {{output.stdout}}"
+ 
+  - debug: var=ansible_distribution_version
+

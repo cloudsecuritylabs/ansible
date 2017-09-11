@@ -1,0 +1,5 @@
+ansible test -i hosts -u root -m setup
+ansible test -i hosts -u root -m yum -a "name=httpd state=latest" -b
+ansible test -i hosts -u root -m service -a "name=httpd state=started" -b
+ansible-doc -h
+ansible-doc -l | greap ec2

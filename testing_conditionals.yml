@@ -1,0 +1,37 @@
+---
+- name: testing conditionals
+  hosts: test
+  remote_user: root
+  become: yes
+
+  vars:
+    unicorn: true
+
+  tasks:
+  - name: don't install on debian machines
+    yum: name=httpd state=present
+    when: (ansible_os_family=='RedHat' && ansible_distribution_major_version=="6")
+
+  - name: are unicorns true or false
+    shell: echo "unicorns are fake"
+    when: not uniconrn
+
+  - name: test to see if selinux is running
+    shell: getenforce
+    register: sestatus
+
+  - name: configure selinux if not enforcing
+    seboolean: name=mysql_connect_any state=true persistent=yes
+    when: sestatus.rc !=0
+
+  - name: checking systemd
+    shell: cat /var/log/messages
+    register: log_output
+
+  - name: next task
+    shell: echo "systemd knows when we are doing ansible tasks"
+    when: log_output.stdout.find('ansible') != 0
+    register: shell_echo
+
+  - debug: var=shell_echo
+

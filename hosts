@@ -1,0 +1,13 @@
+[test] # this is a group with a single host
+192.168.0.16
+
+#[test:vars]
+#ansible_user:root 
+
+[example]
+test[01:50].example.com
+test[a:f].example.com
+
+
+
+
